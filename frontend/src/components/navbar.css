@@ -1,0 +1,51 @@
+.navWrap{ padding: 14px 0; position: sticky; top:0; z-index: 20; }
+.nav{
+  padding: 12px 14px;
+  border-radius: 22px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.brand{ display:flex; align-items:center; gap: 12px; min-width: 220px; }
+.logoDot{
+  width: 12px; height: 12px; border-radius: 999px;
+  background: linear-gradient(135deg, rgba(124,92,255,1), rgba(45,212,191,1));
+  box-shadow: 0 10px 30px rgba(124,92,255,.35);
+}
+.brandName{ font-weight: 700; letter-spacing: -0.02em; }
+.brandSub{ font-size: 12px; color: rgba(232,238,255,.55); margin-top: 2px; }
+
+.navRight{
+  display:flex; align-items:center; gap: 10px;
+  flex-wrap: wrap;
+  justify-content:flex-end;
+}
+.navLink{
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: rgba(232,238,255,.85);
+  border: 1px solid transparent;
+  transition: background .15s ease, border-color .15s ease;
+}
+.navLink:hover{
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.10);
+}
+
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(232,238,255,.9);
+  font-size: 13px;
+}
+.chipDot{
+  width: 8px; height: 8px; border-radius: 999px;
+  background: rgba(45,212,191,1);
+  box-shadow: 0 0 0 6px rgba(45,212,191,.08);
+}
