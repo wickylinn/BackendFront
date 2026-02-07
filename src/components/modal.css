@@ -1,0 +1,26 @@
+.modalBack{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 18px;
+  z-index: 50;
+}
+.modal{
+  width: min(520px, 100%);
+  border-radius: 22px;
+  padding: 16px;
+}
+.modalTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modalTitle{ font-size: 18px; font-weight: 750; letter-spacing:-0.01em; }
+.modalSub{ margin-top: 6px; color: rgba(232,238,255,.6); font-size: 13px; }
+
+.modalForm{ margin-top: 14px; display:flex; flex-direction: column; gap: 12px; }
+.label{ display:flex; flex-direction: column; gap: 8px; color: rgba(232,238,255,.8); font-size: 13px; }
