@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
-const Register = ({ setUser }) => {
-  const navigate = useNavigate();
-
+const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,26 +12,16 @@ const Register = ({ setUser }) => {
     e.preventDefault();
     setErr("");
 
-    const u = username.trim();
-    const em = email.trim();
-
-    if (!u) return setErr("Username is required.");
-    if (!em) return setErr("Email is required.");
+    if (!username.trim()) return setErr("Username is required.");
+    if (!email.trim()) return setErr("Email is required.");
     if (!password) return setErr("Password is required.");
 
     try {
       setLoading(true);
-      const res = await API.post("/auth/register", { username: u, email: em, password });
-
-      // лучше хранить user целиком
+      const res = await API.post("/auth/register", { username: username.trim(), email: email.trim(), password });
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      // если ты используешь глобальный user в App.jsx — обнови его
-      if (setUser) setUser(res.data.user);
-
-      // SPA-переход без перезагрузки
-      navigate("/profile");
+      localStorage.setItem("username", username.trim());
+      window.location.href = "/";
     } catch (e2) {
       setErr(e2?.response?.data?.error || "Register failed.");
     } finally {
