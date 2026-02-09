@@ -1,5 +1,6 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
@@ -15,17 +16,27 @@ const RequireAuth = ({ children }) => {
 };
 
 export default function App() {
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
+
+  useEffect(() => {
+    // если токен поменялся (логин/логаут) — обновляем состояние
+    const onStorage = () => setIsAuth(!!localStorage.getItem("token"));
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   return (
     <div className="appShell">
-      <Navbar />
+      <Navbar isAuth={isAuth} setIsAuth={setIsAuth} />
 
       <main className="main">
         <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/movies/:id" element={<MovieDetails />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+
+            <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+            <Route path="/register" element={<Register setIsAuth={setIsAuth} />} />
 
             <Route
               path="/profile"
