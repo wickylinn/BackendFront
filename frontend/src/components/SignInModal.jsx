@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import "./modal.css";
 
-export default function SignInModal({ open, onClose }) {
+export default function SignInModal({ open, onClose, onAuth }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,21 +25,28 @@ export default function SignInModal({ open, onClose }) {
     e.preventDefault();
     setErr("");
 
-    if (!email.trim() || !password) {
+    const em = email.trim();
+    if (!em || !password) {
       setErr("Email and password are required.");
       return;
     }
 
     try {
       setLoading(true);
-      const res = await API.post("/auth/login", { email: email.trim(), password });
+      const res = await API.post("/auth/login", { email: em, password });
+
       localStorage.setItem("token", res.data.token);
 
-      // если бэк возвращает username — сохраним
-      if (res.data?.user?.username) localStorage.setItem("username", res.data.user.username);
+      // сохраним username, если бэк вернул
+      if (res.data?.user?.username) {
+        localStorage.setItem("username", res.data.user.username);
+      }
 
+      // ✅ сообщаем Navbar, что логин успешен (он сам сделает navigate)
+      onAuth?.();
+
+      // закрываем модалку
       onClose?.();
-      window.location.href = "/";
     } catch (e2) {
       setErr(e2?.response?.data?.error || "Login failed.");
     } finally {
@@ -55,9 +62,7 @@ export default function SignInModal({ open, onClose }) {
             <div className="modalTitle">Sign in</div>
             <div className="modalSub">Access your profile & reviews</div>
           </div>
-          <button className="btn" onClick={onClose} type="button">
-            ✕
-          </button>
+          <button className="btn" onClick={onClose} type="button">✕</button>
         </div>
 
         <form onSubmit={submit} className="modalForm">
