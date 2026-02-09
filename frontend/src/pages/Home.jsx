@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MovieList from "../components/MovieList";
 import API from "../services/api";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,9 @@ export default function Home() {
   }, [movies, query]);
 
   const openMovie = (movie) => {
-    window.location.href = `/movies/${movie._id || movie.id}`;
+    const id = movie?._id || movie?.id;
+    if (!id) return;
+    navigate(`/movies/${id}`);
   };
 
   return (
